@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- name of the project -->
+<Context path="/CST8288TomcatServlet">
+
+<Resource name="jdbc/books" auth="Container"
+          type="javax.sql.DataSource"
+          driverClassName="com.mysql.jdbc.Driver"
+          url="jdbc:mysql://localhost:3306/books"
+          username="root"
+          password ="root"
+          maxTotal="100"
+          maxIdle="30"
+          maxWaitMillis="1000"/>
+          
+
+
+
+</Context>
