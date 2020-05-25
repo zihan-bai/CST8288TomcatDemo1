@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,28 +12,18 @@ import bean.Author;
 
 
 public class AuthorDaoImpl implements AuthorDao {
-	private static final String URL = "jdbc:mysql://localhost:3306/books";
-	private static final String USER = "root";
-	private static final String PASSWORD = "root";
 	private static final String SQL_GET_ALL_AUTHOR ="SELECT * FROM authors";
 	private static final String SQL_GET_ONE_AUTHOR ="SELECT * FROM authors where AuthorID = ?";
 	private static final String ADD_AUTHOR ="INSERT INTO authors (FirstName, LastName) values (?,?)";
 	private static final String DELETE_AUTHOR ="DELETE FROM authors where AuthorID= ?";
 	private static final String UPDATE_AUTHOR ="UPDATE authors set FirstName=?, LastName=? where AuthorID =?";
-	static {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
+
 	//getAllAuthorInfo
 	@Override
 	public List<Author> getAllAuthors() {
 		
 		List<Author> list = new ArrayList<Author>();
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 			
 				PreparedStatement statement = con.prepareStatement(SQL_GET_ALL_AUTHOR);
 				ResultSet result = statement.executeQuery()) {
@@ -59,7 +48,7 @@ public class AuthorDaoImpl implements AuthorDao {
 	@Override
 	public boolean addAuthor(Author author) {
 		
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 				PreparedStatement statement = con.prepareStatement(ADD_AUTHOR);
 			) {
 			//set the ? 
@@ -80,7 +69,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public boolean deleteAuthor(int authorID) {
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 				PreparedStatement statement = con.prepareStatement(DELETE_AUTHOR);
 			) {
 			//set the ? 
@@ -101,7 +90,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public boolean updateAuthor(Author author) {
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 				PreparedStatement statement = con.prepareStatement(UPDATE_AUTHOR);
 			) {
 			//set the ? 
@@ -128,7 +117,7 @@ public class AuthorDaoImpl implements AuthorDao {
 	public Author getOneAuthor(int AuthorID) {
 		Author author = new Author();
 
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 				PreparedStatement statement = con.prepareStatement(SQL_GET_ONE_AUTHOR);
 			) {
 			//set the ? 
@@ -154,7 +143,7 @@ public class AuthorDaoImpl implements AuthorDao {
 	@Override
 	public List<Author> getAllAuthor() {
 		List<Author> list = new ArrayList<Author>();
-		try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+		try (Connection con = DataSource.get();
 				PreparedStatement statement = con.prepareStatement(SQL_GET_ALL_AUTHOR);
 				ResultSet result = statement.executeQuery()) {		
 			while (result.next()) {
